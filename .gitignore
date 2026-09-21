@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+backend/dist/
+frontend/dist/
+
+# Environment / secrets — never commit these
+.env
+.env.*
+!.env.example
+
+# Docker compose local overrides
+docker-compose.override.yml
+
+# Lavish review artifacts
+.lavish/
+
+# OS noise
+.DS_Store

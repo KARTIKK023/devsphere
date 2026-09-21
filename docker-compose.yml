@@ -1,0 +1,35 @@
+services:
+  seed:
+    build:
+      context: ./backend
+    container_name: devsphere-seed
+    command: ["npm", "run", "seed"]
+    env_file: ./backend/.env
+    environment:
+      - NODE_ENV=production
+    restart: "no"
+
+  backend:
+    build:
+      context: ./backend
+    container_name: devsphere-backend
+    restart: unless-stopped
+    env_file: ./backend/.env
+    environment:
+      - NODE_ENV=production
+      - PORT=5002
+    ports:
+      - "${DEVSPHERE_BACKEND_PORT:-5002}:5002"
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: devsphere-frontend
+    restart: unless-stopped
+    ports:
+      - "${DEVSPHERE_FRONTEND_PORT:-5173}:80"
+    depends_on:
+      - backend
