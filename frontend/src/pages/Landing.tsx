@@ -1,9 +1,7 @@
 import Navbar from "@/components/landing/Navbar";
+import Spline from "@splinetool/react-spline";
 import Hero from "@/components/landing/Hero";
-import Features from "@/components/landing/Features";
-import Workflow from "@/components/landing/Workflow";
-import Platform from "@/components/landing/Platform";
-import CTA from "@/components/landing/CTA";
+
 import Footer from "@/components/landing/Footer";
 
 export default function Landing() {
@@ -12,11 +10,11 @@ export default function Landing() {
       <Navbar />
 
       <main>
-        <Hero />
-        <Features />
-        <Workflow />
-        <Platform />
-        <CTA />
+      <Spline
+          scene="/spline/landing-scene.splinecode"
+          style={{ width: '100%', height: '100vh' }}
+        />
+        <Hero/>
       </main>
 
       <Footer />
