@@ -18,7 +18,7 @@ export default function Landing() {
 
       <main>
         <Hero />
-
+        
         <Features />
         <Workflow />
         <Platform />
