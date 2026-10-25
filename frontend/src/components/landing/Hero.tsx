@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles } from "lucide-react";
-
+import { ArrowRight, Sparkles, } from "lucide-react";
+import Spline from "@splinetool/react-spline";
 import { Button } from "@/components/ui/button";
 
 const CODE_LINES = [
@@ -22,67 +22,63 @@ const WIDTH_CLASSES: Record<string, string> = {
 };
 
 export default function Hero() {
+    const handleLoad = () => {
+    const style = document.createElement("style");
+    style.textContent = `
+      .spline-watermark,
+      #spline-watermark,
+      [class*="watermark"],
+      [id*="watermark"],
+      [data-spline-watermark] {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        opacity: 0 !important;
+      }
+    `;
+    document.head.appendChild(style);
+  };
   return (
-    <section className="relative overflow-hidden pb-24 pt-36">
-      {/* Backdrop */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black,transparent)]"
-      />
+    <section className="relative h-screen overflow-hidden">
+          <Spline
+            scene="/spline/landing-scene.splinecode"
+            className="absolute inset-0 h-full w-full"
+            onLoad={handleLoad}
+          />
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[820px] -translate-x-1/2 rounded-full bg-foreground/[0.04] blur-3xl"
-      />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background/50 via-background/20 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
 
-      <div className="relative mx-auto max-w-6xl px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="animate-in fade-in slide-in-from-bottom-2 mb-6 inline-flex items-center gap-2 rounded-full border bg-background/60 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
-            <Sparkles className="size-3.5" />
-            Repository intelligence, reimagined
+          <div className="relative z-10 mx-auto flex h-full max-w-6xl items-center px-6">
+            <div className="max-w-2xl">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border bg-background/40 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
+                <Sparkles className="size-3.5" />
+                Repository intelligence, reimagined
+              </div>
+
+              <h1 className="text-balance text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+                Understand your code.
+                <span className="block bg-gradient-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">
+                  Architect with confidence.
+                </span>
+              </h1>
+
+              <p className="mt-6 max-w-xl text-pretty text-lg leading-8 text-muted-foreground">
+                Connect your GitHub repositories, explore every file, and design architecture boards that stay in sync with the systems you build.
+              </p>
+
+              <div className="pointer-events-auto mt-10 flex flex-col items-start justify-start gap-3 sm:flex-row">
+                <Button size="lg" render={<Link to="/signup" />}>
+                  Start building free
+                  <ArrowRight className="size-4" />
+                </Button>
+                <Button size="lg" variant="outline" render={<Link to="/login" />}>
+                  Sign in
+                </Button>
+              </div>
+            </div>
           </div>
-
-          <h1 className="animate-in fade-in slide-in-from-bottom-3 text-balance text-5xl font-semibold leading-[1.05] tracking-tight duration-700 sm:text-6xl lg:text-7xl">
-            Understand your code.
-            <span className="block bg-gradient-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">
-              Architect with confidence.
-            </span>
-          </h1>
-
-          <p className="animate-in fade-in slide-in-from-bottom-4 mx-auto mt-6 max-w-xl text-pretty text-lg leading-8 text-muted-foreground duration-700">
-            Connect your GitHub repositories, explore every
-            file, and design architecture boards that stay in
-            sync with the systems you build.
-          </p>
-
-          <div className="animate-in fade-in slide-in-from-bottom-5 mt-10 flex flex-col items-center justify-center gap-3 duration-700 sm:flex-row">
-            <Button
-              size="lg"
-              className="w-full sm:w-auto"
-              render={<Link to="/signup" />}
-            >
-              Start building free
-              <ArrowRight className="size-4" />
-            </Button>
-
-            <Button
-              size="lg"
-              variant="outline"
-              className="w-full sm:w-auto"
-              render={<Link to="/login" />}
-            >
-              Sign in
-            </Button>
-          </div>
-
-          <p className="mt-5 text-xs text-muted-foreground">
-            No credit card required · Connect GitHub in seconds
-          </p>
-        </div>
-
-        <HeroPreview />
-      </div>
-    </section>
+        </section>
   );
 }
 
